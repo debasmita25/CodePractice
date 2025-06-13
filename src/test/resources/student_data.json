@@ -1,0 +1,11 @@
+{
+            "id":6,
+            "name": "Sudeep Biswas",
+            "age":40,
+            "grade": "A",
+            "subjects": [
+                "Math",
+                "Science",
+                "SST"
+            ]
+}
