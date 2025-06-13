@@ -33,8 +33,16 @@ public class HandlingWebElement1 {
 		WebDriver driver=new ChromeDriver();
 		driver.get("https://ui.vision/demo/webtest/frames/");
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(driver.findElement(By.xpath("//form[@id='id3']/.."))));
-        //ele.sendKeys("Hello Debasmita");
+		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(driver.findElement(By.xpath("//frame[@src='frame_3.html']"))));
+        WebElement ele=driver.findElement(By.name("mytext3"));
+		
+		ele.sendKeys("Hello Debasmita");
+		System.out.println(driver.findElement(By.tagName("iframe")).getAttribute("src"));
+		driver.switchTo().defaultContent();
+		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(driver.findElement(By.xpath("//frame[@src='frame_2.html']"))));
+        ele=driver.findElement(By.name("mytext2"));
+		
+		ele.sendKeys("Hello Sudeep");
         
 		
 	}
