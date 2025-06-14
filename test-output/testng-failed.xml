@@ -5,7 +5,7 @@
     <classes>
       <class name="com.selenium.practice.HandlingWebElement1">
         <methods>
-          <include name="iframeExample"/>
+          <include name="autoSuggest"/>
         </methods>
       </class> <!-- com.selenium.practice.HandlingWebElement1 -->
     </classes>
