@@ -2,15 +2,15 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-06-13T16:52:12 IST" name="Default suite" finished-at="2025-06-13T16:52:18 IST" duration-ms="5870">
+  <suite started-at="2025-06-15T13:05:00 IST" name="Default suite" finished-at="2025-06-15T13:05:10 IST" duration-ms="9386">
     <groups>
     </groups>
-    <test started-at="2025-06-13T16:52:12 IST" name="Default test" finished-at="2025-06-13T16:52:18 IST" duration-ms="5870">
+    <test started-at="2025-06-15T13:05:00 IST" name="Default test" finished-at="2025-06-15T13:05:10 IST" duration-ms="9386">
       <class name="com.selenium.practice.HandlingWebElement1">
-        <test-method signature="iframeExample()[pri:0, instance:com.selenium.practice.HandlingWebElement1@6cd28fa7]" started-at="2025-06-13T16:52:12 IST" name="iframeExample" finished-at="2025-06-13T16:52:18 IST" duration-ms="5832" status="PASS">
+        <test-method signature="datePicker()[pri:0, instance:com.selenium.practice.HandlingWebElement1@659499f1]" started-at="2025-06-15T13:05:00 IST" name="datePicker" finished-at="2025-06-15T13:05:10 IST" duration-ms="9357" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- iframeExample -->
+        </test-method> <!-- datePicker -->
       </class> <!-- com.selenium.practice.HandlingWebElement1 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
