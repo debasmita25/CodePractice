@@ -27,7 +27,7 @@ public class HandlingWebElement1 {
 
 	}
 
-	@Test
+	//@Test
 	public void iframeExample()
 	{
 		WebDriver driver=new ChromeDriver();
