@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 public class WebdriverMethods {
 
-	@Test
+	@Test(groups= {"Regression"})
 	public void methodsWebdriver() {
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://testautomationpractice.blogspot.com/");

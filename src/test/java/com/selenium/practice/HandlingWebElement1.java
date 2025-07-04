@@ -1,8 +1,8 @@
 package com.selenium.practice;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -11,6 +11,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,7 +23,7 @@ public class HandlingWebElement1 {
 
 	WebDriverWait wait;
 
-	// @Test
+	@Test(groups= {"Regression"})
 	public void testAuthenticationPopUp() {
 
 		WebDriver driver = new ChromeDriver();
@@ -30,9 +32,8 @@ public class HandlingWebElement1 {
 		driver.get("https://admin:admin@the-internet.herokuapp.com/basic_auth");
 		WebElement textPresent = driver.findElement(By.cssSelector("div[id='content'] p"));
 		Assert.assertEquals(textPresent.getText(), "Congratulations! You must have the proper credentials.");
-
+        driver.close();
 	}
-
 
 	// @Test
 	public void iframeExample() {
@@ -169,7 +170,7 @@ public class HandlingWebElement1 {
 
 	}
 
-	@Test
+	// @Test
 	public void datePicker() {
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://testautomationpractice.blogspot.com/");
@@ -192,93 +193,191 @@ public class HandlingWebElement1 {
 
 		// enter second date format
 		WebElement datePickerText2 = driver.findElement(By.xpath("//input[@id='txtDate']"));
-		//datePickerText2 = datePickerText2.findElement(By.xpath("./.."));
-		//String SecondDate = datePickerText2.getText();
-		//SecondDate = SecondDate.substring(SecondDate.indexOf('(') + 1, SecondDate.indexOf(')'));
-		//System.out.println(SecondDate);
-		//String dateToBeSelected ="02-05-2025";
-		
-		//click date field
-		datePickerText2.click(); 
-	    // Define the formatter matching your date format
-       // formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		// datePickerText2 = datePickerText2.findElement(By.xpath("./.."));
+		// String SecondDate = datePickerText2.getText();
+		// SecondDate = SecondDate.substring(SecondDate.indexOf('(') + 1,
+		// SecondDate.indexOf(')'));
+		// System.out.println(SecondDate);
+		// String dateToBeSelected ="02-05-2025";
 
-        // Parse the date string to LocalDate
-        //LocalDate date = LocalDate.parse(dateToBeSelected, formatter);
+		// click date field
+		datePickerText2.click();
+		// Define the formatter matching your date format
+		// formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        // Extract parts
-        String dayInput = "2";
-        String monthInput = "May";  // 1 = Jan, 5 = May
-        String yearInput = "2027";
-        
-        //selectPastDate(driver, dayInput, monthInput, yearInput);
-        selectFutureDate(driver, dayInput, monthInput, yearInput);
+		// Parse the date string to LocalDate
+		// LocalDate date = LocalDate.parse(dateToBeSelected, formatter);
+
+		// Extract parts
+		String dayInput = "2";
+		String monthInput = "May"; // 1 = Jan, 5 = May
+		String yearInput = "2027";
+
+		// selectPastDate(driver, dayInput, monthInput, yearInput);
+		// selectFutureDate(driver, dayInput, monthInput, yearInput);
+
+		WebElement monthSelected = driver.findElement(By.cssSelector("select[aria-label='Select month']"));
+		Select select = new Select(monthSelected);
+		select.selectByVisibleText(monthInput);
+		WebElement yearSelected = driver.findElement(By.cssSelector("select[aria-label='Select year']"));
+		select = new Select(yearSelected);
+		select.selectByVisibleText(yearInput);
+		// select date
+		List<WebElement> dateElements = driver.findElements(By.cssSelector("td[data-handler='selectDay'] a"));
+		for (WebElement eleDate : dateElements) {
+			if (eleDate.getText().equals(dayInput)) {
+				eleDate.click();
+				break;
+			}
+		}
 
 		// extract third date format
-		WebElement thirdDate = driver.findElement(By.id("start-date"));
-		wait.until(ExpectedConditions.elementToBeClickable(thirdDate));
-		thirdDate.click();
-	}
-	
-	
-	//select future date
-	public void selectFutureDate(WebDriver driver,String expectedDate,String expectedMonth,String expectedYear)
-	{
-		//select past year and month
-		while(true)
-        {
-			WebElement monthSelected=driver.findElement(By.cssSelector("select[aria-label='Select month'] option[selected]"));
-		    WebElement yearSelected=driver.findElement(By.cssSelector("select[aria-label='Select year'] option[selected]"));
-		    
-			
-        	if(monthSelected.getText().equalsIgnoreCase(expectedMonth) && yearSelected.getText().equalsIgnoreCase(expectedYear))
-        	{
-        		break;
-        	}
-        	
-        	driver.findElement(By.xpath("//a/span[text()='Next']")).click();
-        }
-		//select date
-		List<WebElement> dateElements=driver.findElements(By.cssSelector("td[data-handler='selectDay'] a"));
-		for(WebElement ele:dateElements)
-		{
-			if(ele.getText().equals(expectedDate))
-			{
-				ele.click();
-				break;
-			}
-		}
-		
-	}
-	
-	//select past date
-	public void selectPastDate(WebDriver driver,String expectedDate,String expectedMonth,String expectedYear)
-	{
-		//select past year and month
-		while(true)
-        {
-			WebElement monthSelected=driver.findElement(By.cssSelector("select[aria-label='Select month'] option[selected]"));
-		    WebElement yearSelected=driver.findElement(By.cssSelector("select[aria-label='Select year'] option[selected]"));
-		    
-			
-        	if(monthSelected.getText().equalsIgnoreCase(expectedMonth) && yearSelected.getText().equalsIgnoreCase(expectedYear))
-        	{
-        		break;
-        	}
-        	
-        	driver.findElement(By.xpath("//a/span[text()='Prev']")).click();
-        }
-		//select date
-		List<WebElement> dateElements=driver.findElements(By.cssSelector("td[data-handler='selectDay'] a"));
-		for(WebElement ele:dateElements)
-		{
-			if(ele.getText().equals(expectedDate))
-			{
-				ele.click();
-				break;
-			}
-		}
-		
+		// WebElement thirdDate = driver.findElement(By.id("start-date"));
+		// wait.until(ExpectedConditions.elementToBeClickable(thirdDate));
+		// thirdDate.click();
+		js = (JavascriptExecutor) driver;
+		WebElement eleThirdStartDate = (WebElement) js.executeScript("return document.getElementById('start-date');");
+		js.executeScript("arguments[0].value='2025-08-08';", eleThirdStartDate);
+		// eleThirdStartDate.sendKeys(Keys.TAB);
+		WebElement eleThirdEndDate = (WebElement) js.executeScript("return document.getElementById('end-date');");
+		js.executeScript("arguments[0].value='2025-08-08';", eleThirdEndDate);
+		driver.findElement(By.className("submit-btn")).click();
+		System.out.println(driver.findElement(By.id("result")).getText());
+
 	}
 
+	// select future date
+	public void selectFutureDate(WebDriver driver, String expectedDate, String expectedMonth, String expectedYear) {
+		// select past year and month
+		while (true) {
+			WebElement monthSelected = driver
+					.findElement(By.cssSelector("select[aria-label='Select month'] option[selected]"));
+			WebElement yearSelected = driver
+					.findElement(By.cssSelector("select[aria-label='Select year'] option[selected]"));
+
+			if (monthSelected.getText().equalsIgnoreCase(expectedMonth)
+					&& yearSelected.getText().equalsIgnoreCase(expectedYear)) {
+				break;
+			}
+
+			driver.findElement(By.xpath("//a/span[text()='Next']")).click();
+		}
+		// select date
+		List<WebElement> dateElements = driver.findElements(By.cssSelector("td[data-handler='selectDay'] a"));
+		for (WebElement ele : dateElements) {
+			if (ele.getText().equals(expectedDate)) {
+				ele.click();
+				break;
+			}
+		}
+
+	}
+
+	// select past date
+	public void selectPastDate(WebDriver driver, String expectedDate, String expectedMonth, String expectedYear) {
+		// select past year and month
+		while (true) {
+			WebElement monthSelected = driver
+					.findElement(By.cssSelector("select[aria-label='Select month'] option[selected]"));
+			WebElement yearSelected = driver
+					.findElement(By.cssSelector("select[aria-label='Select year'] option[selected]"));
+
+			if (monthSelected.getText().equalsIgnoreCase(expectedMonth)
+					&& yearSelected.getText().equalsIgnoreCase(expectedYear)) {
+				break;
+			}
+
+			driver.findElement(By.xpath("//a/span[text()='Prev']")).click();
+		}
+		// select date
+		List<WebElement> dateElements = driver.findElements(By.cssSelector("td[data-handler='selectDay'] a"));
+		for (WebElement ele : dateElements) {
+			if (ele.getText().equals(expectedDate)) {
+				ele.click();
+				break;
+			}
+		}
+
+	}
+
+	// @Test
+	public void mouseHover() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://testautomationpractice.blogspot.com/");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		JavascriptExecutor jp = (JavascriptExecutor) driver;
+		WebElement visibleElement = driver.findElement(By.cssSelector("button[class='dropbtn']"));
+		jp.executeScript("arguments[0].scrollIntoView(true)", visibleElement);
+
+		// jp.executeScript("window.scrollTo(0,document.body.scrollHeight);");
+		String innerText = (String) jp.executeScript("return document.querySelector('h2.title').innerText;");
+		System.out.println(innerText);
+		Actions action = new Actions(driver);
+		List<WebElement> listOfPointMe = driver.findElements(By.cssSelector("div[class='dropdown-content'] a"));
+		// action.moveToElement(visibleElement).moveToElement(listOfPointMe.get(0)).click().perform();
+
+	}
+
+	@Test
+	public void doubleClick() {
+		ChromeOptions options=new ChromeOptions();
+		String filePath = Paths
+				.get(System.getProperty("user.dir"), "src", "test", "resources", "Extensions", "AdBlock.crx")
+				.toString();
+		options.addExtensions(new File(filePath));
+		WebDriver driver = new ChromeDriver(options);
+		driver.get("https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_ondblclick");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		Actions action = new Actions(driver);
+		driver.switchTo().frame("iframeResult");
+		action.doubleClick(driver.findElement(By.xpath("//p[@id='demo']/preceding-sibling::p"))).perform();
+		System.out.println(driver.findElement(By.xpath("//p[@id='demo']")).getText());
+		driver.close();
+	}
+
+	@Test
+	public void rightClick() {
+		ChromeOptions options = new ChromeOptions();
+		String filePath = Paths
+				.get(System.getProperty("user.dir"), "src", "test", "resources", "Extensions", "AdBlock.crx")
+				.toString();
+		options.addExtensions(new File(filePath));
+		WebDriver driver = new ChromeDriver(options);
+		driver.get("https://www.w3schools.com/vue/tryit.php?filename=tryvue_modifiers_rightClick");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		// driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		driver.switchTo().frame("iframeResult_0");
+		WebElement styleElement = driver.findElement(By.cssSelector("div#app div"));
+		System.out.println(styleElement.getDomAttribute("style"));
+		Actions action = new Actions(driver);
+		action.contextClick(driver.findElement(By.cssSelector("div#app div p"))).perform();
+		styleElement = driver.findElement(By.cssSelector("div#app div"));
+		System.out.println(styleElement.getDomAttribute("style"));
+		driver.close();
+
+	}
+	
+	@Test(groups= {"Regression"})
+	public void dragAndDrop() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://testautomationpractice.blogspot.com/");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		// driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebElement visibleElement = driver.findElement(By.cssSelector("button[class='dropbtn']"));
+		JavascriptExecutor jp = (JavascriptExecutor) driver;
+		jp.executeScript("arguments[0].scrollIntoView(true)", visibleElement);
+		Actions action=new Actions(driver);
+		WebElement source=driver.findElement(By.id("draggable"));
+		WebElement target=driver.findElement(By.id("droppable"));
+		System.out.println(driver.findElement(By.id("droppable")).getText());
+		action.dragAndDrop(source, target).perform();
+		System.out.println(driver.findElement(By.id("droppable")).getText());
+	    driver.close();	
+	}
 }
