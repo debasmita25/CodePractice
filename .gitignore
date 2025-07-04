@@ -1,1 +1,3 @@
 /target/
+.env
+src/test/resources/Extensions/
